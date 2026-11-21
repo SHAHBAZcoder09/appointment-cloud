@@ -1,0 +1,18 @@
+server:
+  port: 8091
+
+spring:
+  application:
+    name: service-appointment
+  datasource:
+    url: jdbc:mysql://gateway01.ap-southeast-1.prod.alicloud.tidbcloud.com:4000/appointment_db?useSSL=true&requireSSL=true&serverTimezone=UTC
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: 4C5m6Kv7a5u3vED.root
+    password: ${TIDB_PASSWORD}
+  cloud:
+    nacos:
+      discovery:
+        server-addr: nacos:8848
+    sentinel:
+      transport:
+        dashboard: sentinel:8858

@@ -1,0 +1,49 @@
+services:
+  nacos:
+    image: nacos/nacos-server:v2.3.2
+    container_name: appointment-nacos
+    environment:
+      - MODE=standalone
+    ports:
+      - "8848:8848"
+      - "9848:9848"
+
+  redis:
+    image: redis:7-alpine
+    container_name: appointment-redis
+    ports:
+      - "6379:6379"
+
+  sentinel:
+    image: bladex/sentinel-dashboard:1.8.6
+    container_name: appointment-sentinel
+    ports:
+      - "8858:8858"
+
+  backend-dev:
+    image: maven:3.9.6-eclipse-temurin-17
+    container_name: appointment-backend
+    working_dir: /workspace
+    volumes:
+      - .:/workspace
+      - maven-cache:/root/.m2
+    ports:
+      - "7000:7000"
+      - "8071:8071"
+      - "8072:8072"
+      - "8081:8081"
+      - "8091:8091"
+    command: tail -f /dev/null
+
+  frontend-dev:
+    image: node:20-alpine
+    container_name: appointment-frontend
+    working_dir: /workspace
+    volumes:
+      - .:/workspace
+    ports:
+      - "5173:5173"
+    command: tail -f /dev/null
+
+volumes:
+  maven-cache:

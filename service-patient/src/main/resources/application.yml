@@ -1,0 +1,23 @@
+server:
+  port: 8071
+
+spring:
+  application:
+    name: service-patient
+  datasource:
+    url: jdbc:mysql://gateway01.ap-southeast-1.prod.alicloud.tidbcloud.com:4000/appointment_db?useSSL=true&requireSSL=true&serverTimezone=UTC
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: 4C5m6Kv7a5u3vED.root
+    password: ${TIDB_PASSWORD}
+  data:
+    redis:
+      host: redis
+      port: 6379
+  cache:
+    type: redis
+    redis:
+      time-to-live: 600000
+  cloud:
+    nacos:
+      discovery:
+        server-addr: nacos:8848
