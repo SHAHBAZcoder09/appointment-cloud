@@ -1,15 +1,15 @@
 <template>
-  <div style="max-width:380px;margin:40px auto;background:#fff;padding:24px;border-radius:10px;border:1px solid #ddd;">
+  <div class="card" style="max-width:380px;margin:40px auto;padding:24px;border-radius:10px;">
     <h2 style="margin-top:0;">{{ isRegister ? 'Create Patient Account' : 'N4 Clinic Login' }}</h2>
 
     <form v-if="!isRegister" @submit.prevent="login">
       <div style="margin-bottom:12px;">
         <label>Username</label>
-        <input v-model="username" required style="width:100%;padding:8px;margin-top:4px;box-sizing:border-box;" />
+        <input v-model="username" required class="input" />
       </div>
       <div style="margin-bottom:16px;">
         <label>Password</label>
-        <input v-model="password" type="password" required style="width:100%;padding:8px;margin-top:4px;box-sizing:border-box;" />
+        <input v-model="password" type="password" required class="input" />
       </div>
       <button :disabled="loading" type="submit" style="width:100%;padding:10px;background:#2563eb;color:#fff;border:none;border-radius:6px;cursor:pointer;">
         {{ loading ? 'Logging in...' : 'Login' }}
@@ -19,24 +19,24 @@
     <form v-else @submit.prevent="register">
       <div style="margin-bottom:10px;">
         <label>Full Name</label>
-        <input v-model="reg.name" required style="width:100%;padding:8px;margin-top:4px;box-sizing:border-box;" />
+        <input v-model="reg.name" required class="input" />
       </div>
       <div style="margin-bottom:10px;">
         <label>Username</label>
-        <input v-model="reg.username" required style="width:100%;padding:8px;margin-top:4px;box-sizing:border-box;" />
+        <input v-model="reg.username" required class="input" />
       </div>
       <div style="margin-bottom:10px;">
         <label>Password</label>
-        <input v-model="reg.password" type="password" required style="width:100%;padding:8px;margin-top:4px;box-sizing:border-box;" />
+        <input v-model="reg.password" type="password" required class="input" />
       </div>
       <div style="display:flex;gap:8px;margin-bottom:16px;">
         <div style="flex:2;">
-          <label>Phone</label>
-          <input v-model="reg.phone" style="width:100%;padding:8px;margin-top:4px;box-sizing:border-box;" />
+          <label>Phone (10 digits)</label>
+          <input v-model="reg.phone" @input="reg.phone = reg.phone.replace(/\D/g, '').slice(0, 10)" inputmode="numeric" required maxlength="10" pattern="\d{10}" placeholder="e.g. 9876543210" class="input" />
         </div>
         <div style="flex:1;">
           <label>Age</label>
-          <input v-model.number="reg.age" type="number" style="width:100%;padding:8px;margin-top:4px;box-sizing:border-box;" />
+          <input v-model.number="reg.age" type="number" min="1" max="120" required class="input" />
         </div>
       </div>
       <button :disabled="loading" type="submit" style="width:100%;padding:10px;background:#16a34a;color:#fff;border:none;border-radius:6px;cursor:pointer;">
@@ -44,9 +44,9 @@
       </button>
     </form>
 
-    <p v-if="msg" :style="{ color: isError ? '#dc2626' : '#16a34a', marginTop: '12px' }">{{ msg }}</p>
+    <p v-if="msg" :style="{ color: isError ? '#ef4444' : '#22c55e', marginTop: '12px' }">{{ msg }}</p>
     <p style="margin-top:16px;font-size:14px;text-align:center;">
-      <a href="#" @click.prevent="isRegister = !isRegister; msg = ''">
+      <a href="#" @click.prevent="isRegister = !isRegister; msg = ''" style="color:#3b82f6;">
         {{ isRegister ? 'Already have an account? Login' : 'New patient? Create an account' }}
       </a>
     </p>
@@ -82,6 +82,9 @@ async function login() {
 }
 
 async function register() {
+  if (!/^\d{10}$/.test(reg.phone)) {
+    msg.value = 'Phone number must be exactly 10 digits.'; isError.value = true; return
+  }
   loading.value = true; msg.value = ''
   try {
     const res = await fetch('http://localhost:7000/patient/register', {
