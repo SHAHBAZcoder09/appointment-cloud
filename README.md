@@ -1,4 +1,4 @@
-# Appointment Booking Microservices System (`appointment-cloud`)
+# N4 Clinic Appointment System (`appointment-cloud`)
 
 A distributed clinic appointment booking system built with Spring Cloud Alibaba, TiDB Cloud, Redis, and Vue 3.
 

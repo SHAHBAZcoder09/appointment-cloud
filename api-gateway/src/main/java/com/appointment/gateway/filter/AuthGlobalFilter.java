@@ -25,6 +25,8 @@ public class AuthGlobalFilter implements GlobalFilter, Ordered {
     private static final String SECRET = "appointment-cloud-secret-key-2026";
     private static final List<String> WHITE_LIST = List.of(
             "/patient/login",
+            "/patient/register",
+            "/schedule/config",
             "/schedule/findAll",
             "/schedule/find/",
             "/appointment/lb/port",

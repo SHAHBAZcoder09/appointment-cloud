@@ -45,6 +45,15 @@ public class ScheduleController {
         return Result.ok(scheduleService.findAll());
     }
 
+    @PostMapping("/add")
+    public Result<DoctorSchedule> add(@RequestBody DoctorSchedule schedule) {
+        if (schedule.getAvailableQuota() == null) {
+            schedule.setAvailableQuota(schedule.getTotalQuota());
+        }
+        scheduleService.save(schedule);
+        return Result.ok(schedule);
+    }
+
     @PostMapping("/deduct/{id}")
     public Result<DoctorSchedule> deduct(@PathVariable Integer id) {
         if (!bookingOpen) {

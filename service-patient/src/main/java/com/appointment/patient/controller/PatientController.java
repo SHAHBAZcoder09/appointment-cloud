@@ -38,6 +38,20 @@ public class PatientController {
         return Result.ok(res);
     }
 
+    @PostMapping("/register")
+    public Result<Patient> register(@RequestBody Patient patient) {
+        if (patient.getUsername() == null || patient.getPassword() == null || patient.getName() == null) {
+            return Result.fail(400, "Username, password, and name are required");
+        }
+        Long exists = patientService.count(new LambdaQueryWrapper<Patient>()
+                .eq(Patient::getUsername, patient.getUsername()));
+        if (exists > 0) {
+            return Result.fail(400, "Username already exists");
+        }
+        patientService.save(patient);
+        return Result.ok(patient);
+    }
+
     @GetMapping("/find/{id}")
     public Result<Patient> findById(@PathVariable Integer id) {
         return Result.ok(patientService.findById(id));
