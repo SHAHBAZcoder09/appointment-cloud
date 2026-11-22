@@ -4,6 +4,8 @@ server:
 spring:
   application:
     name: service-schedule
+  config:
+    import: optional:nacos:service-schedule.yml
   datasource:
     url: jdbc:mysql://gateway01.ap-southeast-1.prod.alicloud.tidbcloud.com:4000/appointment_db?useSSL=true&requireSSL=true&serverTimezone=UTC
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -13,3 +15,6 @@ spring:
     nacos:
       discovery:
         server-addr: nacos:8848
+      config:
+        server-addr: nacos:8848
+        file-extension: yml
