@@ -5,3 +5,4 @@ front-end/node_modules/
 .env
 .idea/
 *.iml
+.vscode/
