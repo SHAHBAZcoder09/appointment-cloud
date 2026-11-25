@@ -29,7 +29,18 @@
       </div>
     </div>
 
-    <!-- Search & Filter Bar -->
+    <!-- DeepSeek AI Triage Bar -->
+    <form @submit.prevent="askAi" class="ai-bar">
+      <span class="ai-badge">DeepSeek AI</span>
+      <input v-model="symptoms" placeholder="Describe symptoms (e.g. skin rash, chest pain, child fever)..." class="ai-input" />
+      <button :disabled="aiLoading" type="submit" class="btn-orange-pill">{{ aiLoading ? "Thinking..." : "Ask AI" }}</button>
+    </form>
+    <div v-if="aiReply" class="ai-reply">
+      <div><b>{{ aiSource }}:</b> {{ aiReply }}</div>
+      <button @click="aiReply = ''" class="ai-close">✕</button>
+    </div>
+
+    <!-- Search <!-- Search & Filter Bar --> Filter Bar -->
     <div class="toolbar">
       <div class="dept-pills">
         <button v-for="dept in departments" :key="dept" @click="selectedDept = dept"
@@ -105,6 +116,10 @@ const showAdd = ref(false)
 const newDoc = reactive({ doctorName: '', department: '', scheduleDate: '2026-11-25', timeSlot: '09:00-11:00', totalQuota: 5, fee: 45 })
 const loading = ref(false)
 const bookingId = ref(null)
+const symptoms = ref('')
+const aiReply = ref('')
+const aiSource = ref('')
+const aiLoading = ref(false)
 const statusMsg = ref('')
 const isError = ref(false)
 
@@ -117,6 +132,20 @@ const filtered = computed(() =>
      s.department.toLowerCase().includes(search.value.toLowerCase()))
   )
 )
+
+async function askAi() {
+  if (!symptoms.value.trim()) return
+  aiLoading.value = true
+  try {
+    const res = await fetch('http://localhost:7000/appointment/ai/recommend', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${props.token}` },
+      body: JSON.stringify({ symptoms: symptoms.value })
+    })
+    const data = await res.json()
+    if (data.code === 200) { aiReply.value = data.data.advice; aiSource.value = data.data.source }
+  } finally { aiLoading.value = false }
+}
 
 async function loadAll() {
   loading.value = true
@@ -191,6 +220,11 @@ onMounted(loadAll)
 .metric-glass b { display: block; font-size: 26px; font-weight: 600; }
 .metric-glass span { font-size: 12px; color: rgba(255,255,255,0.85); }
 
+.ai-bar { display:flex; flex-wrap:wrap; gap:10px; align-items:center; padding:12px 16px; border-radius:999px; background:#faf9f7; border:1px solid #eceae4; margin-bottom:16px; }
+.ai-badge { padding:5px 12px; border-radius:999px; background:#18181b; color:#fdba74; font-size:11px; font-weight:700; }
+.ai-input { flex:1; min-width:200px; border:none; background:transparent; outline:none; font-size:13px; }
+.ai-reply { display:flex; justify-content:space-between; align-items:center; gap:12px; padding:14px 18px; border-radius:16px; background:#fff7ed; border:1px solid #fed7aa; color:#9a3412; font-size:13px; margin-bottom:18px; }
+.ai-close { border:none; background:transparent; color:#9a3412; cursor:pointer; font-weight:700; }
 .toolbar { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 12px; margin-bottom: 20px; }
 .dept-pills { display: flex; flex-wrap: wrap; gap: 6px; }
 .dept-pill { padding: 8px 16px; border-radius: 999px; border: 1px solid #e4e4e7; background: #fff; color: #52525b; font-size: 13px; font-weight: 500; cursor: pointer; }
