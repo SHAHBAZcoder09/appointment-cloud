@@ -6,5 +6,4 @@ front-end/node_modules/
 .idea/
 *.iml/
 .vscode/node_modules/
-
 **/node_modules/

@@ -1,5 +1,5 @@
 <template>
-  <div class="n4-app">
+  <div class="n4-app"><div class="n4-horizon-fade"></div>
     <header class="n4-nav-wrap">
       <div class="n4-nav">
         <div class="n4-brand" @click="goHome" :style="{ cursor: patient ? 'pointer' : 'default' }">
@@ -124,4 +124,8 @@ button:active:not(:disabled) { transform: scale(0.97); }
   50% { opacity: 1; transform: translateY(-8px) scale(1.06); }
 }
 @keyframes fadeUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+.n4-app, .adm-app { position:relative; overflow-x:hidden; }
+.n4-nav-wrap, .adm-nav-wrap, .n4-main, .adm-main { position:relative; z-index:2; }
+.n4-horizon-fade { position:fixed; left:0; right:0; bottom:0; height:42vh; pointer-events:none; z-index:1; background:linear-gradient(to top, rgba(220,104,36,0.48) 0%, rgba(215,120,58,0.22) 38%, rgba(165,148,136,0.06) 70%, transparent 100%); animation:horizonBreathe 6.5s ease-in-out infinite; }
+@keyframes horizonBreathe { 0%,100% { opacity:0.82; transform:translateY(0px); } 50% { opacity:1; transform:translateY(-6px); } }
 </style>

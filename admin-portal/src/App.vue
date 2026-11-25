@@ -1,5 +1,5 @@
 <template>
-  <div class="adm-app">
+  <div class="adm-app"><div class="n4-horizon-fade"></div>
     <header class="adm-nav-wrap">
       <div class="adm-nav">
         <div class="adm-brand" @click="admin && (tab = 'bookings')">
@@ -33,8 +33,8 @@
           <div class="hero-glow"></div>
           <div class="hero-inner">
             <span class="pill-glass">N4 Clinic Operations</span>
-            <h1>Clinic Operations,<br /><span>centralized control.</span></h1>
-            <p>Manage all patient appointments, doctor quotas, and live Spring Cloud Alibaba governance rules from one dedicated admin console.</p>
+            <h1><span v-for="(w,i) in 'Clinic Operations,'.split(' ')" :key="'h1a'+i" class="hover-word">{{ w }}</span><br /><span class="sub-line"><span v-for="(w,i) in 'centralized control.'.split(' ')" :key="'h1b'+i" class="hover-word">{{ w }}</span></span></h1>
+            <p><span v-for="(w,i) in 'Manage all patient appointments, doctor quotas, and live Spring Cloud Alibaba governance rules from one dedicated admin console.'.split(' ')" :key="'p'+i" class="hover-word">{{ w }}</span></p>
           </div>
         </div>
 
@@ -317,4 +317,11 @@ async function testGateway() {
 .gov-card span { font-size: 12px; opacity: 0.82; }
 .console { margin: 0; padding: 16px; border-radius: 14px; min-height: 150px; background: rgba(15,15,18,0.78); color: #fdba74; font-size: 13px; white-space: pre-wrap; }
 @keyframes drift { 0%,100% { transform: scale(1.03); } 50% { transform: scale(1.11) translate(-12px,-6px); } }
+.n4-app, .adm-app { position:relative; overflow-x:hidden; }
+.n4-nav-wrap, .adm-nav-wrap, .n4-main, .adm-main { position:relative; z-index:2; }
+.n4-horizon-fade { position:fixed; left:0; right:0; bottom:0; height:42vh; pointer-events:none; z-index:1; background:linear-gradient(to top, rgba(220,104,36,0.48) 0%, rgba(215,120,58,0.22) 38%, rgba(165,148,136,0.06) 70%, transparent 100%); animation:horizonBreathe 6.5s ease-in-out infinite; }
+@keyframes horizonBreathe { 0%,100% { opacity:0.82; transform:translateY(0px); } 50% { opacity:1; transform:translateY(-6px); } }
+.hover-word { display:inline-block; margin-right:0.26em; transition:transform 0.22s cubic-bezier(0.22, 1, 0.36, 1), color 0.18s ease, text-shadow 0.22s ease; cursor:default; }
+.hover-word:hover { transform:translateY(-6px) scale(1.06); color:#ffffff; text-shadow:0 8px 20px rgba(232,108,44,0.55); }
+.sub-line { color:rgba(255,255,255,0.78); font-weight:500; }
 </style>
