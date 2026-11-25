@@ -21,7 +21,7 @@
             </span>
             <button @click="logout" class="n4-pill-orange">Logout</button>
           </template>
-          <span v-else class="n4-pill-subtle">Patient Portal</span>
+          <a href="http://localhost:5174" class="n4-pill-subtle" style="text-decoration:none;">Admin Console ↗</a>
         </div>
       </div>
     </header>

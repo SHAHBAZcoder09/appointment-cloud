@@ -4,7 +4,10 @@ import com.appointment.common.entity.DoctorSchedule;
 import com.appointment.schedule.mapper.ScheduleMapper;
 import com.appointment.schedule.service.IScheduleService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
+
 import java.util.List;
 
 @Service
@@ -16,11 +19,13 @@ public class ScheduleServiceImpl extends ServiceImpl<ScheduleMapper, DoctorSched
     }
 
     @Override
+    @Cacheable(value = "schedules", key = "'all'")
     public List<DoctorSchedule> findAll() {
         return baseMapper.selectList(null);
     }
 
     @Override
+    @CacheEvict(value = "schedules", allEntries = true)
     public DoctorSchedule deductQuota(Integer id) {
         DoctorSchedule s = baseMapper.selectById(id);
         if (s == null || s.getAvailableQuota() <= 0) {
@@ -32,6 +37,7 @@ public class ScheduleServiceImpl extends ServiceImpl<ScheduleMapper, DoctorSched
     }
 
     @Override
+    @CacheEvict(value = "schedules", allEntries = true)
     public DoctorSchedule releaseQuota(Integer id) {
         DoctorSchedule s = baseMapper.selectById(id);
         if (s == null) {
@@ -42,5 +48,11 @@ public class ScheduleServiceImpl extends ServiceImpl<ScheduleMapper, DoctorSched
             baseMapper.updateById(s);
         }
         return s;
+    }
+
+    @Override
+    @CacheEvict(value = "schedules", allEntries = true)
+    public boolean save(DoctorSchedule entity) {
+        return super.save(entity);
     }
 }

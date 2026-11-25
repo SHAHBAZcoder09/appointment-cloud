@@ -4,5 +4,7 @@ front-end/node_modules/
 *.log
 .env
 .idea/
-*.iml
-.vscode/
+*.iml/
+.vscode/node_modules/
+
+**/node_modules/
