@@ -1,18 +1,22 @@
 <template>
   <div class="auth-bento">
-    <div class="auth-hero">
+    <div class="auth-hero" ref="heroRef" @mousemove="onMouseMove" @mouseleave="onMouseLeave">
       <div class="hero-bg-layer"></div>
       <div class="hero-scrim"></div>
+      <div class="hero-orange-glow"></div>
+
       <div class="hero-content">
-        <div class="auth-badge">N4 Clinic Appointment System</div>
-        <h1 class="auth-hero-title">
-          Personalized care,<br />
-          <span>without the wait.</span>
-        </h1>
-        <p class="auth-hero-sub">
-          Book board-certified specialists in seconds. Powered by microservices, live slot validation, and instant confirmation.
-        </p>
-        <div class="auth-glass-stats">
+        <div class="auth-badge parallax-soft" :style="softStyle">N4 Clinic Appointment System</div>
+        <div class="parallax-main" :style="mainStyle">
+          <h1 class="auth-hero-title">
+            Personalized care,<br />
+            <span>without the wait.</span>
+          </h1>
+          <p class="auth-hero-sub">
+            Book board-certified specialists in seconds. Powered by microservices, live slot validation, and instant confirmation.
+          </p>
+        </div>
+        <div class="auth-glass-stats parallax-deep" :style="deepStyle">
           <div class="auth-stat">
             <b>99.9%</b>
             <span>Gateway Uptime</span>
@@ -82,7 +86,7 @@
 </template>
 
 <script setup>
-import { ref, reactive } from 'vue'
+import { ref, reactive, computed } from 'vue'
 
 const emit = defineEmits(['logged-in'])
 const isRegister = ref(false)
@@ -92,6 +96,26 @@ const reg = reactive({ name: '', username: '', password: '', phone: '', age: 25 
 const loading = ref(false)
 const msg = ref('')
 const isError = ref(false)
+
+// Smooth mouse-reactive parallax
+const heroRef = ref(null)
+const mx = ref(0)
+const my = ref(0)
+
+function onMouseMove(e) {
+  if (!heroRef.value) return
+  const rect = heroRef.value.getBoundingClientRect()
+  mx.value = ((e.clientX - rect.left) / rect.width - 0.5) * 2
+  my.value = ((e.clientY - rect.top) / rect.height - 0.5) * 2
+}
+function onMouseLeave() {
+  mx.value = 0
+  my.value = 0
+}
+
+const softStyle = computed(() => ({ transform: `translate3d(${mx.value * 6}px, ${my.value * 5}px, 0)` }))
+const mainStyle = computed(() => ({ transform: `translate3d(${mx.value * 12}px, ${my.value * 9}px, 0)` }))
+const deepStyle = computed(() => ({ transform: `translate3d(${mx.value * 16}px, ${my.value * 12}px, 0)` }))
 
 async function login() {
   loading.value = true; msg.value = ''
@@ -143,21 +167,27 @@ async function register() {
 }
 .hero-bg-layer {
   position: absolute; inset: 0; background: url('/hero-bg.jpg') center/cover no-repeat;
-  animation: heroDrift 18s ease-in-out infinite; z-index: 0;
+  animation: heroDrift 12s ease-in-out infinite; z-index: 0;
 }
 .hero-scrim {
   position: absolute; inset: 0; z-index: 1;
-  background: linear-gradient(155deg, rgba(35,34,36,0.72) 0%, rgba(110,85,70,0.58) 50%, rgba(190,95,40,0.68) 100%);
+  background: linear-gradient(155deg, rgba(24,24,27,0.42) 0%, rgba(110,85,70,0.22) 48%, rgba(190,95,40,0.34) 100%);
+}
+.hero-orange-glow {
+  position: absolute; left: -10%; right: -10%; bottom: -25%; height: 65%; z-index: 1; pointer-events: none;
+  background: radial-gradient(ellipse at bottom center, rgba(232,108,44,0.82) 0%, rgba(217,119,54,0.35) 45%, transparent 75%);
+  animation: orangeGlow 5.5s ease-in-out infinite;
 }
 .hero-content { position: relative; z-index: 2; display: flex; flex-direction: column; justify-content: space-between; height: 100%; animation: fadeUp 0.32s cubic-bezier(0.22, 1, 0.36, 1) both; }
+.parallax-soft, .parallax-main, .parallax-deep { transition: transform 0.25s cubic-bezier(0.22, 1, 0.36, 1); will-change: transform; }
 .auth-badge { display: inline-block; align-self: flex-start; padding: 6px 14px; border-radius: 999px; background: rgba(255,255,255,0.18); backdrop-filter: blur(8px); font-size: 12px; font-weight: 500; }
-.auth-hero-title { font-size: 38px; line-height: 1.12; letter-spacing: -0.03em; font-weight: 600; margin: 28px 0 14px; }
-.auth-hero-title span { color: rgba(255,255,255,0.78); font-weight: 500; }
-.auth-hero-sub { font-size: 14px; line-height: 1.6; color: rgba(255,255,255,0.88); max-width: 380px; margin: 0 0 28px; }
+.auth-hero-title { font-size: 38px; line-height: 1.12; letter-spacing: -0.03em; font-weight: 600; margin: 28px 0 14px; text-shadow: 0 2px 16px rgba(0,0,0,0.25); }
+.auth-hero-title span { color: rgba(255,255,255,0.82); font-weight: 500; }
+.auth-hero-sub { font-size: 14px; line-height: 1.6; color: rgba(255,255,255,0.92); max-width: 380px; margin: 0 0 28px; text-shadow: 0 1px 10px rgba(0,0,0,0.2); }
 .auth-glass-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-.auth-stat { padding: 16px; border-radius: 16px; background: rgba(255,255,255,0.14); border: 1px solid rgba(255,255,255,0.22); backdrop-filter: blur(12px); }
+.auth-stat { padding: 16px; border-radius: 16px; background: rgba(255,255,255,0.16); border: 1px solid rgba(255,255,255,0.25); backdrop-filter: blur(12px); }
 .auth-stat b { display: block; font-size: 20px; font-weight: 600; }
-.auth-stat span { font-size: 12px; color: rgba(255,255,255,0.82); }
+.auth-stat span { font-size: 12px; color: rgba(255,255,255,0.86); }
 
 .auth-form-card { border-radius: 24px; padding: 40px 36px; background: #faf9f7; border: 1px solid #eceae4; display: flex; flex-direction: column; justify-content: center; animation: fadeUp 0.35s cubic-bezier(0.22, 1, 0.36, 1) both; }
 .auth-badge-dark { display: inline-block; align-self: flex-start; padding: 5px 12px; border-radius: 999px; background: #ffffff; border: 1px solid #e4e4e7; font-size: 11px; font-weight: 600; color: #71717a; margin-bottom: 12px; }

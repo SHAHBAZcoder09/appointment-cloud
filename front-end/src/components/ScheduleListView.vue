@@ -4,6 +4,7 @@
     <div class="hero-panel">
       <div class="hero-bg-layer"></div>
       <div class="hero-scrim"></div>
+      <div class="hero-orange-glow"></div>
       <div class="hero-inner">
         <div>
           <div class="hero-pill">
@@ -175,7 +176,8 @@ onMounted(loadAll)
   position: relative; overflow: hidden; border-radius: 24px; padding: 34px 36px; margin-bottom: 24px; color: #fff;
   background: linear-gradient(135deg, #4b4744 0%, #7c685c 45%, #c86d36 100%);
 }
-.hero-bg-layer { position: absolute; inset: 0; background: url('/hero-bg.jpg') center/cover no-repeat; animation: heroDrift 18s ease-in-out infinite; z-index: 0; }
+.hero-bg-layer { position: absolute; inset: 0; background: url('/hero-bg.jpg') center/cover no-repeat; animation: heroDrift 12s ease-in-out infinite; z-index: 0; }
+.hero-orange-glow { position:absolute; left:-10%; right:-10%; bottom:-35%; height:70%; z-index:1; pointer-events:none; background:radial-gradient(ellipse at bottom center, rgba(232,108,44,0.78) 0%, rgba(217,119,54,0.3) 45%, transparent 75%); animation:orangeGlow 5.5s ease-in-out infinite; }
 .hero-scrim { position: absolute; inset: 0; z-index: 1; background: linear-gradient(135deg, rgba(35,34,36,0.72) 0%, rgba(105,80,66,0.58) 50%, rgba(185,90,38,0.68) 100%); }
 .hero-inner { position: relative; z-index: 2; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 20px; }
 .hero-pill { display: inline-flex; align-items: center; gap: 8px; padding: 6px 14px; border-radius: 999px; background: rgba(255,255,255,0.18); backdrop-filter: blur(8px); font-size: 12px; margin-bottom: 14px; }

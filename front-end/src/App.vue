@@ -2,7 +2,7 @@
   <div class="n4-app">
     <header class="n4-nav-wrap">
       <div class="n4-nav">
-        <div class="n4-brand">
+        <div class="n4-brand" @click="goHome" :style="{ cursor: patient ? 'pointer' : 'default' }">
           <div class="n4-brand-icon">N4</div>
           <span class="n4-brand-text">N4 Clinic</span>
         </div>
@@ -49,6 +49,9 @@ const token = ref('')
 const tab = ref('schedules')
 const isAdmin = computed(() => patient.value?.username === 'Denji')
 
+function goHome() {
+  if (patient.value) tab.value = 'schedules'
+}
 function onLoggedIn(data) {
   patient.value = data.patient
   token.value = data.token
@@ -72,7 +75,8 @@ function logout() {
   box-shadow: 0 12px 32px rgba(24, 24, 27, 0.10);
   animation: slideDown 0.35s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
-.n4-brand { display: flex; align-items: center; gap: 10px; }
+.n4-brand { display: flex; align-items: center; gap: 10px; transition: opacity 0.15s; }
+.n4-brand:hover { opacity: 0.85; }
 .n4-brand-icon {
   width: 30px; height: 30px; border-radius: 50%;
   background: linear-gradient(135deg, #e86c2c, #b45309);
@@ -102,7 +106,6 @@ function logout() {
 .n4-pill-subtle { padding: 6px 14px; border-radius: 999px; background: rgba(255,255,255,0.12); font-size: 12px; color: #e4e4e7; }
 .n4-main { max-width: 1120px; margin: 0 auto; padding: 28px 24px 60px; }
 
-/* Global smooth & fast transitions */
 button { transition: transform 0.14s cubic-bezier(0.22, 1, 0.36, 1), background 0.18s ease, box-shadow 0.18s ease, opacity 0.18s ease; }
 button:active:not(:disabled) { transform: scale(0.97); }
 
@@ -112,9 +115,13 @@ button:active:not(:disabled) { transform: scale(0.97); }
 
 @keyframes slideDown { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
 @keyframes heroDrift {
-  0% { transform: scale(1.02) translate(0px, 0px); }
-  50% { transform: scale(1.10) translate(-12px, -6px); }
-  100% { transform: scale(1.02) translate(0px, 0px); }
+  0% { transform: scale(1.03) translate(0px, 0px); }
+  50% { transform: scale(1.12) translate(-14px, -8px); }
+  100% { transform: scale(1.03) translate(0px, 0px); }
+}
+@keyframes orangeGlow {
+  0%, 100% { opacity: 0.72; transform: translateY(0px) scale(1); }
+  50% { opacity: 1; transform: translateY(-8px) scale(1.06); }
 }
 @keyframes fadeUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 </style>

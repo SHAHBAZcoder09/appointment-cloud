@@ -2,6 +2,7 @@
   <div class="gov-bento">
     <div class="hero-bg-layer"></div>
     <div class="hero-scrim"></div>
+      <div class="hero-orange-glow"></div>
     <div class="gov-inner">
       <div class="gov-header">
         <div class="gov-pill">Admin Governance Suite</div>
@@ -66,7 +67,8 @@ async function testGatewayBlock() {
   position: relative; overflow: hidden; border-radius: 26px; padding: 36px; color: #fff;
   background: linear-gradient(145deg, #4b4744 0%, #6d584b 45%, #a85c32 100%);
 }
-.hero-bg-layer { position: absolute; inset: 0; background: url('/hero-bg.jpg') center/cover no-repeat; animation: heroDrift 18s ease-in-out infinite; z-index: 0; }
+.hero-bg-layer { position: absolute; inset: 0; background: url('/hero-bg.jpg') center/cover no-repeat; animation: heroDrift 12s ease-in-out infinite; z-index: 0; }
+.hero-orange-glow { position:absolute; left:-10%; right:-10%; bottom:-35%; height:70%; z-index:1; pointer-events:none; background:radial-gradient(ellipse at bottom center, rgba(232,108,44,0.78) 0%, rgba(217,119,54,0.3) 45%, transparent 75%); animation:orangeGlow 5.5s ease-in-out infinite; }
 .hero-scrim { position: absolute; inset: 0; z-index: 1; background: linear-gradient(145deg, rgba(35,34,36,0.75) 0%, rgba(100,76,62,0.62) 50%, rgba(168,92,50,0.72) 100%); }
 .gov-inner { position: relative; z-index: 2; }
 .gov-pill { display: inline-block; padding: 6px 14px; border-radius: 999px; background: rgba(255,255,255,0.18); font-size: 12px; margin-bottom: 14px; }
