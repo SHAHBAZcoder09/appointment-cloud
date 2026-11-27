@@ -1,9 +1,9 @@
 <template>
-  <div class="n4-app"><div class="n4-horizon-fade"></div>
+  <div class="n4-app"><div class="full-hero-bg"></div><div class="full-hero-scrim"></div><div class="n4-horizon-fade"></div>
     <header class="n4-nav-wrap">
       <div class="n4-nav">
         <div class="n4-brand" @click="goHome" :style="{ cursor: patient ? 'pointer' : 'default' }">
-          <div class="n4-brand-icon">N4</div>
+          
           <span class="n4-brand-text">N4 Clinic</span>
         </div>
 
@@ -17,7 +17,7 @@
           <template v-if="patient">
             <span class="n4-user-tag">
               {{ patient.name }}
-              <span v-if="isAdmin" class="n4-admin-dot">ADMIN</span>
+              <span v-if="isAdmin" class="crown-glow" title="Admin"><svg width="16" height="16" viewBox="0 0 24 24" fill="#fbbf24"><path d="M3 18h18v2H3v-2zm0-2l2-9 4.5 4L12 5l2.5 6L19 7l2 9H3z"/></svg></span>
             </span>
             <button @click="logout" class="n4-pill-orange">Logout</button>
           </template>
@@ -66,7 +66,7 @@ function logout() {
 <style>
 * { box-sizing: border-box; }
 .n4-app { min-height: 100vh; background: #ffffff; color: #18181b; }
-.n4-nav-wrap { padding: 18px 24px 0; max-width: 1120px; margin: 0 auto; }
+.n4-nav-wrap { padding: 18px 24px 0; width: min(92vw, 1520px); max-width: 1520px; margin: 0 auto; }
 .n4-nav {
   display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 12px;
   padding: 10px 16px; border-radius: 999px;
@@ -104,7 +104,7 @@ function logout() {
 .n4-pill-orange:hover { background: #d45d20; transform: translateY(-1px); box-shadow: 0 6px 16px rgba(232,108,44,0.3); }
 .n4-pill-orange:active { transform: scale(0.96); }
 .n4-pill-subtle { padding: 6px 14px; border-radius: 999px; background: rgba(255,255,255,0.12); font-size: 12px; color: #e4e4e7; }
-.n4-main { max-width: 1120px; margin: 0 auto; padding: 28px 24px 60px; }
+.n4-main { width: min(92vw, 1520px); max-width: 1520px; margin: 0 auto; padding: 28px 24px 60px; }
 
 button { transition: transform 0.14s cubic-bezier(0.22, 1, 0.36, 1), background 0.18s ease, box-shadow 0.18s ease, opacity 0.18s ease; }
 button:active:not(:disabled) { transform: scale(0.97); }
@@ -128,4 +128,26 @@ button:active:not(:disabled) { transform: scale(0.97); }
 .n4-nav-wrap, .adm-nav-wrap, .n4-main, .adm-main { position:relative; z-index:2; }
 .n4-horizon-fade { position:fixed; left:0; right:0; bottom:0; height:42vh; pointer-events:none; z-index:1; background:linear-gradient(to top, rgba(220,104,36,0.48) 0%, rgba(215,120,58,0.22) 38%, rgba(165,148,136,0.06) 70%, transparent 100%); animation:horizonBreathe 6.5s ease-in-out infinite; }
 @keyframes horizonBreathe { 0%,100% { opacity:0.82; transform:translateY(0px); } 50% { opacity:1; transform:translateY(-6px); } }
+.n4-app, .adm-app { position:relative; min-height:100vh; background:transparent !important; color:#ffffff !important; overflow-x:hidden; }
+.n4-nav-wrap, .adm-nav-wrap, .n4-main, .adm-main { position:relative; z-index:2; }
+.full-hero-bg { position:fixed; inset:-12px; pointer-events:none; z-index:0; background:url("/hero-bg.jpg") center/cover no-repeat; animation:heroDrift 14s ease-in-out infinite; }
+.full-hero-scrim { position:fixed; inset:0; pointer-events:none; z-index:1; background:linear-gradient(155deg, rgba(20,18,17,0.42) 0%, rgba(55,42,35,0.28) 55%, rgba(190,90,34,0.42) 100%); }
+.n4-nav, .adm-nav { background:rgba(24,22,20,0.46) !important; backdrop-filter:blur(20px) saturate(140%); -webkit-backdrop-filter:blur(20px) saturate(140%); border:1px solid rgba(255,255,255,0.22); box-shadow:0 16px 40px rgba(0,0,0,0.25); }
+/* Empty glass popout cards */
+.hero-bg-layer, .hero-scrim, .hero-orange-glow, .hero-bg, .hero-glow { display:none !important; }
+.auth-hero, .auth-form-card, .hero-panel, .doc-card, .apt-card, .add-card, .empty-card, .modal-card, .ai-bar, .gov-bento, .hero-card, .hero-banner, .gov-panel, .login-card, .row-card, .add-grid, .empty-box { background:rgba(24,22,20,0.46) !important; backdrop-filter:blur(20px) saturate(140%); -webkit-backdrop-filter:blur(20px) saturate(140%); border:1px solid rgba(255,255,255,0.22) !important; box-shadow:0 20px 50px rgba(0,0,0,0.28) !important; color:#ffffff !important; }
+.doc-card:hover, .apt-card:hover, .row-card:hover { transform:translateY(-4px); border-color:rgba(255,255,255,0.38) !important; box-shadow:0 24px 56px rgba(0,0,0,0.36) !important; }
+.quota-box, .slip-rows { background:rgba(255,255,255,0.08) !important; border:1px solid rgba(255,255,255,0.16) !important; }
+.auth-form-title, .doc-name, .fee-tag, .apt-doc, .sec-title, .quota-labels b, .field label, .form-stack label, .login-card h2, .slip-rows b { color:#ffffff !important; }
+.doc-meta, .apt-meta, .quota-labels, .auth-switch a, .slip-rows span, .sec-title span { color:rgba(255,255,255,0.74) !important; }
+.auth-badge-dark, .dept-tag, .apt-no, .pill-label, .pill-light, .mono-pill, .btn-light-pill, .dept-pill, .btn-outline { background:rgba(255,255,255,0.14) !important; border:1px solid rgba(255,255,255,0.24) !important; color:#ffffff !important; }
+.dept-pill.active, .btn-ink, .book-btn:not(.disabled), .btn-ink-full, .btn-dark-pill { background:#ffffff !important; color:#18181b !important; }
+.btn-ink:hover, .book-btn:not(.disabled):hover { background:#e86c2c !important; color:#ffffff !important; }
+input, .search-input, .ai-input { background:rgba(255,255,255,0.10) !important; border:1px solid rgba(255,255,255,0.22) !important; color:#ffffff !important; }
+input::placeholder { color:rgba(255,255,255,0.52) !important; }
+@keyframes heroDrift { 0%,100% { transform:scale(1.03) translate(0,0); } 50% { transform:scale(1.12) translate(-14px,-8px); } }
+.hover-word { display:inline-block; margin-right:0.26em; transition:transform 0.22s cubic-bezier(0.22,1,0.36,1), color 0.18s ease, text-shadow 0.22s ease; cursor:default; }
+.hover-word:hover { transform:translateY(-6px) scale(1.06); color:#ffffff; text-shadow:0 8px 20px rgba(232,108,44,0.65); }
+.crown-glow { display:inline-flex; align-items:center; filter:drop-shadow(0 0 6px rgba(251,191,36,0.9)) drop-shadow(0 0 12px rgba(232,108,44,0.7)); animation:crownPulse 2.4s ease-in-out infinite; }
+@keyframes crownPulse { 0%,100% { transform:scale(1); filter:drop-shadow(0 0 6px rgba(251,191,36,0.85)); } 50% { transform:scale(1.12); filter:drop-shadow(0 0 12px rgba(251,191,36,1)); } }
 </style>

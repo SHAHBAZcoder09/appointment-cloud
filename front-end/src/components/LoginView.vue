@@ -9,8 +9,8 @@
         <div class="auth-badge parallax-soft" :style="softStyle">N4 Clinic Appointment System</div>
         <div class="parallax-main" :style="mainStyle">
           <h1 class="auth-hero-title">
-            Personalized care,<br />
-            <span>without the wait.</span>
+            <span v-for="(w,i) in 'Personalized care,'.split(' ')" :key="'lt1'+i" class="hover-word">{{ w }}</span><br />
+            <span><span v-for="(w,i) in 'without the wait.'.split(' ')" :key="'lt2'+i" class="hover-word">{{ w }}</span></span>
           </h1>
           <p class="auth-hero-sub">
             Book board-certified specialists in seconds. Powered by microservices, live slot validation, and instant confirmation.

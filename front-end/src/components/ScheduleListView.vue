@@ -12,8 +12,8 @@
             <span>{{ clinicConfig?.bookingNotice || 'Clinic booking is OPEN!' }}</span>
           </div>
           <h1 class="hero-title">
-            Board-Certified<br />
-            <span>Clinic Specialists.</span>
+            <span v-for="(w,i) in 'Board-Certified'.split(' ')" :key="'st1'+i" class="hover-word">{{ w }}</span><br />
+            <span><span v-for="(w,i) in 'Clinic Specialists.'.split(' ')" :key="'st2'+i" class="hover-word">{{ w }}</span></span>
           </h1>
         </div>
         <div class="hero-metrics">
@@ -40,7 +40,6 @@
       <button @click="aiReply = ''" class="ai-close">✕</button>
     </div>
 
-    <!-- Search <!-- Search & Filter Bar --> Filter Bar -->
     <div class="toolbar">
       <div class="dept-pills">
         <button v-for="dept in departments" :key="dept" @click="selectedDept = dept"

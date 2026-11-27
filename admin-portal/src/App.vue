@@ -1,9 +1,9 @@
 <template>
-  <div class="adm-app"><div class="n4-horizon-fade"></div>
+  <div class="adm-app"><div class="full-hero-bg"></div><div class="full-hero-scrim"></div><div class="n4-horizon-fade"></div>
     <header class="adm-nav-wrap">
       <div class="adm-nav">
         <div class="adm-brand" @click="admin && (tab = 'bookings')">
-          <div class="adm-logo">N4</div>
+          
           <span>N4 Admin Console</span>
           
         </div>
@@ -16,7 +16,7 @@
 
         <div class="adm-right">
           <template v-if="admin">
-            <span class="adm-user">{{ admin.name }} <b class="adm-tag">ADMIN</b></span>
+            <span class="adm-user">{{ admin.name }} <span class="crown-glow" title="Admin"><svg width="16" height="16" viewBox="0 0 24 24" fill="#fbbf24"><path d="M3 18h18v2H3v-2zm0-2l2-9 4.5 4L12 5l2.5 6L19 7l2 9H3z"/></svg></span></span>
             <button @click="logout" class="adm-logout">Logout</button>
           </template>
           <a href="http://localhost:5173" class="adm-sub" style="text-decoration:none;color:#e4e4e7;">Patient Portal ↗</a>
@@ -82,7 +82,7 @@
               <div style="font-weight:600;font-size:16px;">
                 Patient: {{ b.patient?.name || b.patientId }} → {{ b.schedule?.doctorName }} ({{ b.schedule?.department }})
               </div>
-              <div style="font-size:13px;color:#71717a;margin-top:4px;">
+              <div style="font-size:13px;color:rgba(255,255,255,0.78);margin-top:4px;">
                 {{ b.schedule?.scheduleDate }} · {{ b.schedule?.timeSlot }} · Fee: ¥{{ b.schedule?.fee }}
               </div>
             </div>
@@ -117,8 +117,8 @@
               <b>¥{{ s.fee }}</b>
             </div>
             <h3 style="margin:0 0 4px;">{{ s.doctorName }}</h3>
-            <div style="font-size:13px;color:#71717a;margin-bottom:14px;">{{ s.scheduleDate }} · {{ s.timeSlot }}</div>
-            <div style="font-size:12px;color:#52525b;margin-bottom:6px;">Slots: <b>{{ s.availableQuota }} / {{ s.totalQuota }}</b></div>
+            <div style="font-size:13px;color:rgba(255,255,255,0.78);margin-bottom:14px;">{{ s.scheduleDate }} · {{ s.timeSlot }}</div>
+            <div style="font-size:12px;color:rgba(255,255,255,0.88);margin-bottom:6px;">Slots: <b>{{ s.availableQuota }} / {{ s.totalQuota }}</b></div>
             <div class="track"><div class="fill" :style="{ width: (s.availableQuota / s.totalQuota * 100) + '%' }"></div></div>
           </div>
         </div>
@@ -252,7 +252,7 @@ async function testGateway() {
 <style>
 * { box-sizing: border-box; }
 .adm-app { min-height: 100vh; background: #fff; color: #18181b; }
-.adm-nav-wrap { padding: 18px 24px 0; max-width: 1120px; margin: 0 auto; }
+.adm-nav-wrap { padding: 18px 24px 0; width: min(92vw, 1520px); max-width: 1520px; margin: 0 auto; }
 .adm-nav { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 12px; padding: 10px 16px; border-radius: 999px; background: #18181b; color: #fff; }
 .adm-brand { display: flex; align-items: center; gap: 10px; cursor: pointer; font-weight: 600; font-size: 14px; }
 .adm-logo { width: 30px; height: 30px; border-radius: 50%; background: linear-gradient(135deg,#e86c2c,#b45309); display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; }
@@ -264,7 +264,7 @@ async function testGateway() {
 .adm-tag { padding: 2px 7px; border-radius: 999px; background: rgba(232,108,44,0.25); color: #fdba74; font-size: 10px; }
 .adm-logout { padding: 7px 16px; border-radius: 999px; border: none; background: #e86c2c; color: #fff; font-size: 12px; font-weight: 600; cursor: pointer; }
 .adm-sub { padding: 6px 14px; border-radius: 999px; background: rgba(255,255,255,0.12); font-size: 12px; }
-.adm-main { max-width: 1120px; margin: 0 auto; padding: 28px 24px 60px; }
+.adm-main { width: min(92vw, 1520px); max-width: 1520px; margin: 0 auto; padding: 28px 24px 60px; }
 
 .login-bento { display: grid; grid-template-columns: 1.15fr 1fr; gap: 20px; }
 @media (max-width: 820px) { .login-bento { grid-template-columns: 1fr; } }
@@ -324,4 +324,26 @@ async function testGateway() {
 .hover-word { display:inline-block; margin-right:0.26em; transition:transform 0.22s cubic-bezier(0.22, 1, 0.36, 1), color 0.18s ease, text-shadow 0.22s ease; cursor:default; }
 .hover-word:hover { transform:translateY(-6px) scale(1.06); color:#ffffff; text-shadow:0 8px 20px rgba(232,108,44,0.55); }
 .sub-line { color:rgba(255,255,255,0.78); font-weight:500; }
+.n4-app, .adm-app { position:relative; min-height:100vh; background:transparent !important; color:#ffffff !important; overflow-x:hidden; }
+.n4-nav-wrap, .adm-nav-wrap, .n4-main, .adm-main { position:relative; z-index:2; }
+.full-hero-bg { position:fixed; inset:-12px; pointer-events:none; z-index:0; background:url("/hero-bg.jpg") center/cover no-repeat; animation:heroDrift 14s ease-in-out infinite; }
+.full-hero-scrim { position:fixed; inset:0; pointer-events:none; z-index:1; background:linear-gradient(155deg, rgba(20,18,17,0.42) 0%, rgba(55,42,35,0.28) 55%, rgba(190,90,34,0.42) 100%); }
+.n4-nav, .adm-nav { background:rgba(24,22,20,0.46) !important; backdrop-filter:blur(20px) saturate(140%); -webkit-backdrop-filter:blur(20px) saturate(140%); border:1px solid rgba(255,255,255,0.22); box-shadow:0 16px 40px rgba(0,0,0,0.25); }
+/* Empty glass popout cards */
+.hero-bg-layer, .hero-scrim, .hero-orange-glow, .hero-bg, .hero-glow { display:none !important; }
+.auth-hero, .auth-form-card, .hero-panel, .doc-card, .apt-card, .add-card, .empty-card, .modal-card, .ai-bar, .gov-bento, .hero-card, .hero-banner, .gov-panel, .login-card, .row-card, .add-grid, .empty-box { background:rgba(24,22,20,0.46) !important; backdrop-filter:blur(20px) saturate(140%); -webkit-backdrop-filter:blur(20px) saturate(140%); border:1px solid rgba(255,255,255,0.22) !important; box-shadow:0 20px 50px rgba(0,0,0,0.28) !important; color:#ffffff !important; }
+.doc-card:hover, .apt-card:hover, .row-card:hover { transform:translateY(-4px); border-color:rgba(255,255,255,0.38) !important; box-shadow:0 24px 56px rgba(0,0,0,0.36) !important; }
+.quota-box, .slip-rows { background:rgba(255,255,255,0.08) !important; border:1px solid rgba(255,255,255,0.16) !important; }
+.auth-form-title, .doc-name, .fee-tag, .apt-doc, .sec-title, .quota-labels b, .field label, .form-stack label, .login-card h2, .slip-rows b { color:#ffffff !important; }
+.doc-meta, .apt-meta, .quota-labels, .auth-switch a, .slip-rows span, .sec-title span { color:rgba(255,255,255,0.74) !important; }
+.auth-badge-dark, .dept-tag, .apt-no, .pill-label, .pill-light, .mono-pill, .btn-light-pill, .dept-pill, .btn-outline { background:rgba(255,255,255,0.14) !important; border:1px solid rgba(255,255,255,0.24) !important; color:#ffffff !important; }
+.dept-pill.active, .btn-ink, .book-btn:not(.disabled), .btn-ink-full, .btn-dark-pill { background:#ffffff !important; color:#18181b !important; }
+.btn-ink:hover, .book-btn:not(.disabled):hover { background:#e86c2c !important; color:#ffffff !important; }
+input, .search-input, .ai-input { background:rgba(255,255,255,0.10) !important; border:1px solid rgba(255,255,255,0.22) !important; color:#ffffff !important; }
+input::placeholder { color:rgba(255,255,255,0.52) !important; }
+@keyframes heroDrift { 0%,100% { transform:scale(1.03) translate(0,0); } 50% { transform:scale(1.12) translate(-14px,-8px); } }
+.hover-word { display:inline-block; margin-right:0.26em; transition:transform 0.22s cubic-bezier(0.22,1,0.36,1), color 0.18s ease, text-shadow 0.22s ease; cursor:default; }
+.hover-word:hover { transform:translateY(-6px) scale(1.06); color:#ffffff; text-shadow:0 8px 20px rgba(232,108,44,0.65); }
+.crown-glow { display:inline-flex; align-items:center; filter:drop-shadow(0 0 6px rgba(251,191,36,0.9)) drop-shadow(0 0 12px rgba(232,108,44,0.7)); animation:crownPulse 2.4s ease-in-out infinite; }
+@keyframes crownPulse { 0%,100% { transform:scale(1); filter:drop-shadow(0 0 6px rgba(251,191,36,0.85)); } 50% { transform:scale(1.12); filter:drop-shadow(0 0 12px rgba(251,191,36,1)); } }
 </style>
